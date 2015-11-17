@@ -2,7 +2,7 @@ function show_schema(){
   remove_modal_elements();
   $('#myModal').modal('show');
   document.getElementById("myModalLabel").innerHTML = "Select a data set by showing the corresponding number of fingers";
-  document.getElementById("myModalFooter").innerHTML = "Swipe left to push the dataset box away";
+  document.getElementById("myModalFooter").innerHTML = "Swipe left --> to push the dataset box away";
   $.ajax({
     contentType: 'application/json; charset=utf-8',
     url:'/data/retrieve_schema_list',
@@ -41,7 +41,9 @@ function show_schema(){
       cellh3.innerHTML = "<b>Description</b>"; 
       document.getElementById("myModalBody").appendChild(table);
       controller.on('frame', processFrameForNumber);
-      controller.connect();  
+      if(!controller.connected()) {
+        controller.connect();
+      }  
     },
     error: function (request, status, error) {
       alert(error);
@@ -55,11 +57,18 @@ function getNumber(hand,index,hands) {
                                 }).length;
   if(extendedFingerCount>0) {
     document.getElementById("myModalLabel").innerHTML = "Selected dataset " + extendedFingerCount;
+    controller.removeListener('frame',processFrameForNumber);
     //controller.disconnect();
+
   }
 }
 
 function show_info(){
+  controller.on('gesture',function(gesture) {
+    $('#myModal').modal('hide');
+    //controller.disconnect();
+  });
+
   remove_modal_elements();
   $.ajax({
       contentType: 'application/json; charset=utf-8',

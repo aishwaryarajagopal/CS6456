@@ -6,7 +6,7 @@ function populate_criteria(){
 		success: function (results) {
 		  var radio_home = document.getElementById("radio_home");
 		  for(var i=0; i< results.length; i++){
-		  	var button = makeRadioButton("scale", results[i]["field_name"]+"#"+results[i]["field_type"], results[i]["field_name"]);
+		  	var button = makeRadioButton(i,"scale", results[i]["field_name"]+"#"+results[i]["field_type"], results[i]["field_name"]);
 		  	radio_home.appendChild(button);  	
 		  }
 		}
@@ -14,15 +14,16 @@ function populate_criteria(){
 }
 
 
-function makeRadioButton(name, value, text) {
+function makeRadioButton(i,name, value, text) {
 	var div = document.createElement("div");
+	div.id = i+1;
 	div.style.width = "500px"; 
 	div.style.height = "auto"; 
-	div.style.background = "Blue"; 
+	div.style.background = "green"; 
 	div.style.color = "white"; 
 	div.style.border = "thick solid #FFFFFF";
 	div.style.align = "middle";
-	div.innerHTML = "<h1><center>"+text+"</center></h1>";
+	div.innerHTML = "<h1><center>"+(i+1)+". "+text+"</center></h1>";
 	div.onclick = function() {
 		setScale(value)
     };

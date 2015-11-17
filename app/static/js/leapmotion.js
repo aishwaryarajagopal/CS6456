@@ -31,6 +31,24 @@ function processFrameForNumber(frame) {
   }
 }
 
+function getExtendedFingers(hand) {
+    var extendedFingerCount = hand.fingers.filter(
+                  function(finger, index, fingers){return finger.extended}).length;
+    return extendedFingerCount;
+}
+
+function isScreenTapGesture(gestures) {
+    if(gestures.length > 0) {
+        gestures.forEach(function(gesture){
+          if (gesture.type == "screenTap") {
+            console.log("screenTap Gesture");
+            return true;
+          }
+        });
+      }
+      return false;
+  }
+
 // function processFrameForSwipe(frame) {
 //   if (frame.valid && frame.gestures.length > 0) {
 //     frame.gestures.forEach(closeBox);

@@ -17,9 +17,10 @@ function populate_filters(){
 
 function makediv(id, field_name, field_type) {
 	var div = document.createElement("div");
+	div.id = id;
 	div.style.width = "500px"; 
 	div.style.height = "auto"; 
-	div.style.background = "Blue"; 
+	div.style.background = "green"; 
 	div.style.color = "white"; 
 	div.style.border = "thick solid #FFFFFF";
 	div.innerHTML = "<input type = 'hidden' value = '"+field_type+"' name = 'f_type' /> <h1>"+field_name+"</h1> <div id = 'div_"+id+"' class = 'divclass' style = 'display:none;'></div><div id = 'caption_"+id+"' style = 'height : 50px;align:middle;'></div>";
