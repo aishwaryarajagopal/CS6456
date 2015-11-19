@@ -18,9 +18,6 @@ The prerequisites to run this application are
 
 The system has been tested on MAC and Ubuntu
 
-CODE : 
-The size of this software is greater than 5MB. Please clone the code repository from https://github.com/anandsainath/SOREn. 
-
 EXECUTION STEPS:
 Start MySQL service
 Restore the MySQL dump -gestviz.sql from the data folder

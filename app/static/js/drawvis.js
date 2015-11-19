@@ -1,5 +1,17 @@
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
+  $.ajax({
+    contentType: 'application/json; charset=utf-8',
+    url:'/data/setdbid',
+    dataType: 'text',
+    data: "dbid=2",
+    success: function (results) {
+      //document.location.href = 'index1.html';
+    },
+    error: function (request, status, error) {
+        console.log(error);
+      }
+    });
   draw_plot();
 };
 
