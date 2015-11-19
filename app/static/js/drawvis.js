@@ -1,24 +1,6 @@
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
-  if (!localStorage['done']) {
-       localStorage['done'] = 'yes';
-       $.ajax({
-          contentType: 'application/json; charset=utf-8',
-          url:'/data/setdbid',
-          dataType: 'text',
-          data: "dbid=2",
-          success: function (results) {
-            draw_plot();
-            controller.on('frame', processFrameForFist);
-            controller.connect();
-          }
-        });
-  }
-  else{
-    draw_plot();
-    controller.on('frame', processFrameForFist);
-    controller.connect();
-  }
+  draw_plot();
 };
 
 function getFist(hand,index,hands) {

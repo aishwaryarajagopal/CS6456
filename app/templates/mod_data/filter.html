@@ -30,7 +30,6 @@
 </head>
 
 <style>
-
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: auto;
@@ -44,8 +43,6 @@ body {
   position: fixed;
   bottom: 18px;
 }
-
-
 </style>
 <body onload="populate_filters()">
 <div id = 'outerbox'>
@@ -55,26 +52,5 @@ body {
 <button onclick="show_criteria_screen()">Select clusterting criteria</button>
 <button onclick="show_main_screen()">Show plot</button>
 </div>
-
-<script type="text/javascript">
-controller.on('frame',filtergestures);
-controller.connect();
-
-function filtergestures(frame) {
-  if(frame.valid) {
-    if(frame.hands.length==1 && getExtendedFingers(frame.hands[0])==1) {
-      
-    } else if (frame.gestures.length > 0) {
-      frame.gestures.forEach(function(gesture){
-        if (gesture.type == "swipe") {
-          document.location.href = 'index1.html';
-          controller.removeListener('frame',filtergestures);
-          console.log("Swipe Gesture");
-        }
-      });    
-    }
-  }
-}
-
-</script>
 </body>
+<script src="/static/js/filterleap.js"></script>

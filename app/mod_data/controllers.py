@@ -90,7 +90,7 @@ def setdbid():
 	session['filter'] = ""
 	session['scale'] = ""
 	session['scale_type'] = ""
-	cur.execute("SELECT field_name, field_type FROM gestviz.gestviz_fields where db_id = 2 and scale_flag = 1 limit 1")
+	cur.execute("SELECT field_name, field_type FROM gestviz.gestviz_fields where db_id = "+dbid+" and scale_flag = 1 limit 1")
 	for row in cur:
 		session['scale']=row[0]
 		session['scale_type'] = 2
@@ -135,7 +135,6 @@ def get_scatterplot_points():
 	field_name = session['scale']
 	field_type = session['scale_type']
 	filter_fields = session['filter'] #sample input : 1*profit*1*10,2*category*Coffee
-	print session['scale_type'], "venkat"
 	
 	cur.execute("drop table if exists temptab");
 	cur.execute("create table temptab as SELECT * FROM gestviz_data where db_id = "+dbid);
@@ -169,9 +168,11 @@ def get_scatterplot_points():
 	#For all rec_ids, get the field value
 	rec_id_str = ','.join(str(x) for x in rec_ids)
 	cur.execute("drop table if exists temptab2");
-	cur.execute("create table temptab2 as SELECT * FROM temptab where rec_id in ("+rec_id_str+") order by value");
-
 	result_str = []
+	if (rec_id_str == ''):
+		rec_id_str="\'\'"
+	print rec_id_str, "aish"
+	cur.execute("create table temptab2 as SELECT * FROM temptab where rec_id in ("+rec_id_str+") order by value");
 	cur1 = conn.cursor()
 	if (field_type == 1 or field_type == '1'):
 		rec = cur.execute("select min(value+0.0) as minval, max(value+0.0) as maxval FROM temptab2 where field_name = '"+field_name+"'");
