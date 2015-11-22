@@ -309,10 +309,10 @@ wheelnav.prototype.navigateWheel = function (clicked) {
 
     for (i = 0; i < this.navItemCount; i++) {
         navItem = this.navItems[i];
-
         navItem.hovered = false;
 
         if (i === clicked) {
+            setNavItem(i);
             if (this.multiSelect) {
                 navItem.selected = !navItem.selected;
             } else {

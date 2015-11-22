@@ -35,12 +35,25 @@ body {
   position: fixed;
   bottom: 18px;
 }
+div.tooltip
+{
+  position: absolute;
+  text-align: left;
+  padding: 8px;
+  font: 12px sans-serif;
+  background: #000;
+  color: #ddd;
+  border: solid 1px #aaa;
+  border-radius: 4px;
+  pointer-events: none;
+}
 </style>
 <body onload="myFunction()">
 <div id="clustertext" style="color:#005d98">
   <span style="float: left;"><h2>CLUSTER SETTINGS Swipe--></h2></span> 
   <span style="float: right;"><h2><--Swipe FILTER SETTINGS</h2></span>
 </div>
+<div class="tooltip" style="opacity: 0.01"></div>
 <div id = 'outerbox'>
 <div id="gesture_output" style = "display:none;"></div>
 <div style="display: none;overflow:scroll;" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -60,11 +73,19 @@ body {
       </div>
   </div>
 <div id = "viz"></div>
+<br>
 <button onclick="show_filter_screen()">Filter data</button>
 <button onclick="show_criteria_screen()">Select clusterting criteria</button>
 
 <button onclick="show_schema()">Show schemalist</button>
 <button onclick="show_info()">Show Info</button>
+
+<button onclick="pan( 0, 50)">Top</button>
+<button onclick="pan( 50, 0)">Left</button>
+<button onclick="pan( 0,-50)">Bottom</button>
+<button onclick="pan(-50, 0)">Right</button>
+<button onclick="zoom(1.25)">Zoom in</button>
+<button onclick="zoom(0.8)">Zoom out</button>
 </div>
 <body>
 <script src="/static/js/indexleap.js"></script>

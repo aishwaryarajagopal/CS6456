@@ -1,0 +1,13 @@
+function show_schema(){
+  $.ajax({
+    url:'/data/retrieve_schema_list',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'text',
+    success: function (results) {
+      show_table(results);
+    },
+    error: function (request, status, error) {
+      alert(error);
+    }
+  });
+}

@@ -1,6 +1,6 @@
 controller.on('frame',filtergestures);
 controller.connect();
-
+rotate_flag = 1;
 function filtergestures(frame) {
   if(frame.valid) {
     if(frame.hands.length == 2) {     //IMPLEMENT FILTER reduce/increase
@@ -32,8 +32,12 @@ function filtergestures(frame) {
       }
     } else if (frame.gestures.length > 0) {
       frame.gestures.forEach(function(gesture){
-        if (gesture.type == "circle") {
+        if (gesture.type == "circle" && rotate_flag) {
           rotate_wheel();
+          rotate_flag = 0;
+          setTimeout( function() { 
+                  rotate_flag = 1;
+          }, 4000);
         } else if (gesture.type == "swipe") {
           document.location.href = 'index1.html';
           controller.removeListener('frame',filtergestures);
