@@ -1,17 +1,19 @@
+var btnclick = document.getElementById("btnclick");
+var transMatrix = [1,0,0,1,0,0];
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
-  $.ajax({
-    contentType: 'application/json; charset=utf-8',
-    url:'/data/setdbid',
-    dataType: 'text',
-    data: "dbid=2",
-    success: function (results) {
-      //document.location.href = 'index1.html';
-    },
-    error: function (request, status, error) {
-        console.log(error);
-      }
-    });
+  // $.ajax({
+  //   contentType: 'application/json; charset=utf-8',
+  //   url:'/data/setdbid',
+  //   dataType: 'text',
+  //   data: "dbid=2",
+  //   success: function (results) {
+      
+  //   },
+  //   error: function (request, status, error) {
+  //       console.log(error);
+  //     }
+  //   });
   draw_plot();
 };
 
@@ -42,7 +44,7 @@ function draw_plot(){
           droppable: null,
           draggedMatchesTarget: function() {
             if (!this.droppable) return false;
-            return true;//(dwarfSet[this.droppable].indexOf(this.dragged) >= 0);
+            return true;
           }
         }
 
@@ -61,16 +63,18 @@ function draw_plot(){
         var x = d3.scale.linear().range([0, 250]).domain([min, max]);
         var y = d3.scale.linear().range([0, 250]).domain([min, max]);
 
+        //Width and height
+        w = 900/results1.length;
+        h = 250;
+
         var svg1 = d3.select("#viz")
               .append("svg")
               .attr("width", 900)
               .attr("height", 600)
+              .append("g")
               .attr("class","gestvizsvg")
-              .call(d3.behavior.zoom().y(y).on("zoom", zoom)).on("mousedown.zoom", null).on("mousemove.zoom", null).on("touchstart.zoom", null).on("wheel.zoom", null).on("mousewheel.zoom", null);
+              .attr("id", "plotsvg");
 
-        //Width and height
-        var w = 900/results1.length;
-        var h = 250;
 
         var color_x = d3.scale.category10();
         var color = d3.scale.ordinal().domain([0,1,2,3,4,5,6,7,8,9]).range(color_x.range()); 
@@ -94,10 +98,11 @@ function draw_plot(){
               .attr("height", h)
               .attr("class", "cluster")
               .on('mouseover',function(d){
-                console.log(this);
                 DragDropManager.droppable = cl; 
               })
               .on('mouseout',function(d){
+                var tooltip = d3.select('body').select('div.tooltip');
+                tooltip.style("opacity", 1e-6);               
                 DragDropManager.droppable = null;
               })
               .attr('transform', function() {
@@ -116,6 +121,31 @@ function draw_plot(){
              .enter()
              .append("circle")
              .attr("class","draggable")
+             .on('click',function(d){
+                console.log(d);
+
+              })
+             .on('mouseenter',function(d){
+                var xpos = d3.event.pageX;
+                var ypos = d3.event.pageY;
+                var tooltip = d3.select('body').select('div.tooltip');
+                var position = document.getElementById("viz").getBoundingClientRect(); 
+                 $.ajax({
+                  contentType: 'application/json; charset=utf-8',
+                  url:'/data/get_point_info',
+                  data: "point="+d,
+                  dataType: 'text',
+                  success: function (pointInfo) {
+                    tooltip.style("opacity", 0.8)
+                      .style("left", ( xpos- position.left+5) + "px")
+                      .style("top", (ypos) + "px")
+                      .html(pointInfo);
+                  }
+                });
+              })
+             // .on('mouseleave',function(d,i){
+             //    d3.select(this).style("fill", color(i));
+             //  })
              .attr("cx", function(d) {
                 if (cur_x > w-20){
                     cur_x = 10;
@@ -166,18 +196,7 @@ function draw_plot(){
           .attr('x', legendRectSize + legendSpacing)
           .attr('y', 15)
           .text(function(d) { return d; });
-        function zoom() {
-          var currentZoom = d3.event.scale;
-          //console.log(currentZoom);
-          
-          if(currentZoom >= 0.1 && currentZoom < 6){
-            svg1.selectAll(".draggable")
-              .attr("cy", function(d) { 
-                return y(d); 
-              })
-              .attr("r", 5*currentZoom);
-          }
-        }
+
         var body = d3.select("body");
         $(".draggable").draggable({
           revert: true,
@@ -223,6 +242,7 @@ function draw_plot(){
             // });
           }
         });
+        document.getElementById("plotsvg").setAttributeNS(null, "transform", "matrix(" +  transMatrix.join(' ') + ")");
     },
     error: function (request, status, error) {
         //alert(error);
@@ -230,3 +250,26 @@ function draw_plot(){
   });
 }
 
+function pan(dx, dy)
+{
+  var svg1 = document.getElementById("plotsvg");
+  transMatrix[4] += dx;
+  transMatrix[5] += dy;
+        
+  newMatrix = "matrix(" +  transMatrix.join(' ') + ")";
+  svg1.setAttributeNS(null, "transform", newMatrix);
+}
+function zoom(scale)
+{
+  var svg1 = document.getElementById("plotsvg");
+  for (var i=0; i<transMatrix.length; i++)
+  {
+    transMatrix[i] *= scale;
+  }
+  transMatrix[4] += (1-scale)*w/2;
+  transMatrix[5] += (1-scale)*h/2;
+        
+  newMatrix = "matrix(" +  transMatrix.join(' ') + ")";
+  console.log(newMatrix);
+  svg1.setAttributeNS(null, "transform", newMatrix);
+}

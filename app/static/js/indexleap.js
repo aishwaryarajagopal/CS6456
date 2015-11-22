@@ -29,11 +29,12 @@ function scattergestures(frame) {
         if(leftvelocity[0]>0){
           gesture_output.innerText = "Zoom IN";
           console.log("Zoom in");
-          zoom();
+          zoom(1.25);
           
         } else {
           gesture_output.innerText = "Zoom OUT";
           console.log("Zoom out");
+          zoom(0.8);
         }
       } else {
        // output.innerText = "NO zoom";
@@ -55,30 +56,6 @@ function scattergestures(frame) {
             console.log("Screen Change");
           }
         });
-      //show_info();
-      //controller.removeListener('frame',scattergestures);
-
-    // } else if (frame.pointables.length > 0 && getExtendedFingers(frame.hands[0]) == 1) {
-    //   //canvasElement.width = canvasElement.width; //clear
-    //   //Get a pointable and normalize the tip position
-    //   var pointable = frame.pointables[0];
-    //   var interactionBox = frame.interactionBox;
-    //   var normalizedPosition = interactionBox.normalizePoint(pointable.stabilizedTipPosition, true);
-
-    //   // Convert the normalized coordinates to span the canvas
-    //   var canvasX = viz.width * normalizedPosition[0];
-    //   var canvasY = viz.height * (1 - normalizedPosition[1]);
-    //   //displayArea.strokeText("O",canvasX, canvasY);
-    //   //output.innerText = document.elementFromPoint(canvasX, canvasY);
-    //   var evt = new MouseEvent("click", { //can generate any mouse event instead of click
-    //     view: window,
-    //     cancelable: true,
-    //   /* whatever properties you want to give it */
-    //   });
-    //   if (document.elementFromPoint(canvasX, canvasY) != null && isKeyTapGesture(frame.gestures)) {
-    //     //dispatch mouse event to element under pointer x, y co-ordinates
-    //     document.elementFromPoint(canvasX, canvasY).dispatchEvent(evt); 
-    //   }
     } else {
       if (frame.hands.length == 1 && getExtendedFingers(frame.hands[0])==1 && frame.hands[0].fingers[0].extended) {
         //show_info();

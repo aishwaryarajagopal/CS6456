@@ -10,7 +10,7 @@ function populate_criteria(){
 		  	radio_home.appendChild(button);  	
 		  }
 		}
-	});
+    });
 }
 
 
@@ -25,7 +25,15 @@ function makeRadioButton(i,name, value, text) {
 	div.style.align = "middle";
 	div.innerHTML = "<h1><center>"+(i+1)+". "+text+"</center></h1>";
 	div.onclick = function() {
-		setScale(value)
+		var btnclick = document.getElementById("btnclick");
+		btnclick.load();
+		btnclick.play();
+		setScale(value);
+		children = document.getElementById("radio_home").childNodes;
+		for (var i =0; i<children.length;i++) {
+			children[i].style.background = "green";
+		}
+		this.style.background="#addd8e";
     };
 
 	return div;

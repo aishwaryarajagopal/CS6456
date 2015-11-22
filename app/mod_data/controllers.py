@@ -108,11 +108,13 @@ def setscale():
 def setfilter():
 	filter_str = request.args.get('filter', '')
 	session['filter']= filter_str
+	print "filter is ", session['filter'];
 	return "hi"
 
 @mod_data.route('/get_info')
 def get_info():
 	#For the main.html screen
+	print "filter is ", session['filter'];
 	result_str = {}
 	result_str['dbid'] = session['dbid']
 	result_str['filter'] = session['filter']
@@ -124,6 +126,15 @@ def get_info():
 		result_str["db_desc"] = row[1]
 		break;
 	return simplejson.dumps(result_str);
+
+@mod_data.route('/get_point_info')
+def get_point_info():
+	recid = request.args.get('point', '')
+	result_str = ""
+	cur.execute("SELECT field_name, value FROM gestviz.gestviz_data where db_id = "+session['dbid']+" and rec_id = "+recid);
+	for row in cur:
+		result_str += row[0]+" : "+row[1]+"<BR>";
+	return result_str
 
 @mod_data.route('/get_scatterplot_points')
 def get_scatterplot_points():
@@ -171,7 +182,7 @@ def get_scatterplot_points():
 	result_str = []
 	if (rec_id_str == ''):
 		rec_id_str="\'\'"
-	print rec_id_str, "aish"
+	#print rec_id_str, "aish"
 	cur.execute("create table temptab2 as SELECT * FROM temptab where rec_id in ("+rec_id_str+") order by value");
 	cur1 = conn.cursor()
 	if (field_type == 1 or field_type == '1'):
