@@ -1,3 +1,4 @@
+var btnclick = document.getElementById("btnclick");
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
   $.ajax({
@@ -15,14 +16,6 @@ function myFunction(){
   draw_plot();
 };
 
-function getFist(hand,index,hands) {
-  gesture_output.innerHTML = hand.grabStrength.toPrecision(2);
-  if(hand.grabStrength.toPrecision(2) == 1.00) {
-    gesture_output.innerHTML = "Fist";
-    show_schema();
-    controller.on('gesture', closeBox);
-  }
-}
 function closeBox(gesture) {
   console.log(gesture.type);
   $('#myModal').modal('hide');

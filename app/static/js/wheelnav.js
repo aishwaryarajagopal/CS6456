@@ -313,7 +313,6 @@ wheelnav.prototype.navigateWheel = function (clicked) {
         navItem.hovered = false;
 
         if (i === clicked) {
-            console.log(i);
             if (this.multiSelect) {
                 navItem.selected = !navItem.selected;
             } else {
