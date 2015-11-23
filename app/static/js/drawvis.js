@@ -1,5 +1,13 @@
 var btnclick = document.getElementById("btnclick");
 var transMatrix = [1,0,0,1,0,0];
+var tooltip_top, tooltip_left = 0;
+function setXY(top_val, left_val){
+  tooltip_top = top_val;
+  tooltip_left = left_val;
+}
+var cur_color;
+var drag_datapoint;
+var prev_datapoint = 0;
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
   // $.ajax({
@@ -63,6 +71,21 @@ function draw_plot(){
               .append("svg")
               .attr("width", 900)
               .attr("height", 600)
+              .on('click',function(d){
+                if(prev_datapoint == 0){
+                  console.log("picking point");
+                  prev_datapoint = 1;
+                }
+                else{
+                  var position = document.getElementById("viz").getBoundingClientRect(); 
+                  drag_datapoint.style("cx", (d3.event.pageX - position.left))
+                      .style("cy", d3.event.pageY);
+
+                  // drag_datapoint.style("left", tooltip_left)
+                  //     .style("top", tooltip_top);
+                  prev_datapoint = 0;
+                }
+              })
               .append("g")
               .attr("class","gestvizsvg")
               .attr("id", "plotsvg");
@@ -93,8 +116,6 @@ function draw_plot(){
                 DragDropManager.droppable = cl; 
               })
               .on('mouseout',function(d){
-                var tooltip = d3.select('body').select('div.tooltip');
-                tooltip.style("opacity", 1e-6);               
                 DragDropManager.droppable = null;
               })
               .attr('transform', function() {
@@ -118,8 +139,7 @@ function draw_plot(){
 
               })
              .on('mouseenter',function(d){
-                var xpos = d3.event.pageX;
-                var ypos = d3.event.pageY;
+                cur_color = this.style.fill;
                 var tooltip = d3.select('body').select('div.tooltip');
                 var position = document.getElementById("viz").getBoundingClientRect(); 
                  $.ajax({
@@ -129,15 +149,24 @@ function draw_plot(){
                   dataType: 'text',
                   success: function (pointInfo) {
                     tooltip.style("opacity", 0.8)
-                      .style("left", ( xpos- position.left+5) + "px")
-                      .style("top", (ypos) + "px")
+                      // .style("left", ( xpos- position.left+5) + "px")
+                      // .style("top", (ypos) + "px")
+                      .style("left", tooltip_left)
+                      .style("top", tooltip_top)
                       .html(pointInfo);
                   }
                 });
+                 d3.select(this).style("fill", "black").attr("r", 15);
               })
-             // .on('mouseleave',function(d,i){
-             //    d3.select(this).style("fill", color(i));
-             //  })
+             .on('mouseleave',function(d){
+                d3.select(this).style("fill", cur_color).attr("r", 5);
+                var tooltip = d3.select('body').select('div.tooltip');
+                tooltip.style("opacity", 1e-6);               
+              })
+             .on('click',function(d){
+                drag_datapoint = d3.select(this);
+                prev_datapoint = 0;
+              })
              .attr("cx", function(d) {
                 if (cur_x > w-20){
                     cur_x = 10;
