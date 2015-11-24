@@ -26,7 +26,7 @@ def criteria():
 @mod_data.route('/retrieve_schema_list')
 def retrieve_schema_list():
 	#For the main.html screen
-	cur.execute("select db_id, db_name, db_desc from schema_master order by db_id desc")
+	cur.execute("select db_id, db_name, db_desc from schema_master order by db_id")
 	result_str = []
 	for row in cur:
 		result_str.append(row);

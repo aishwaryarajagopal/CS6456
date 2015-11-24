@@ -8,6 +8,7 @@ function setXY(top_val, left_val){
 var cur_color;
 var drag_datapoint;
 var prev_datapoint = 0;
+
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
   // $.ajax({
@@ -72,18 +73,28 @@ function draw_plot(){
               .attr("width", 900)
               .attr("height", 600)
               .on('click',function(d){
+                btnclick.load();
+                btnclick.play();
                 if(prev_datapoint == 0){
                   console.log("picking point");
                   prev_datapoint = 1;
                 }
                 else{
-                  var position = document.getElementById("viz").getBoundingClientRect(); 
-                  drag_datapoint.style("cx", (d3.event.pageX - position.left))
-                      .style("cy", d3.event.pageY);
+                  console.log("Moving here");
+                  drag_datapoint.remove();
+                  if(drag_datapoint != null){
+                    var position = document.getElementById("viz").getBoundingClientRect(); 
+                    var c = svg1.append("circle")
+                         .attr("cx", (parseInt(tooltip_left) - position.left+40) + "px")
+                          .attr("cy", (parseInt(tooltip_top) - position.top) + "px")
+                         .attr("r", 20)
+                         .style('fill', color(4));
 
-                  // drag_datapoint.style("left", tooltip_left)
-                  //     .style("top", tooltip_top);
-                  prev_datapoint = 0;
+                    setTimeout( function() { 
+                            c.attr("r", 5);
+                    }, 4000);
+                    prev_datapoint = 0;
+                  }
                 }
               })
               .append("g")
