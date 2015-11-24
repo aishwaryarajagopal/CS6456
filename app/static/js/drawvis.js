@@ -11,25 +11,12 @@ var prev_datapoint = 0;
 
 function myFunction(){
   gesture_output.innerHTML = "Make a fist to bring up datasets";
-  // $.ajax({
-  //   contentType: 'application/json; charset=utf-8',
-  //   url:'/data/setdbid',
-  //   dataType: 'text',
-  //   data: "dbid=2",
-  //   success: function (results) {
-      
-  //   },
-  //   error: function (request, status, error) {
-  //       console.log(error);
-  //     }
-  //   });
   draw_plot();
 };
 
 function closeBox(gesture) {
   console.log(gesture.type);
   $('#myModal').modal('hide');
-  //controller.disconnect();
 }
 function draw_plot(){
   $.ajax({

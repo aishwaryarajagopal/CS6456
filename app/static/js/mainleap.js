@@ -93,7 +93,7 @@
           .attr("id",function(d,i) {return i+1;});
     nodes.append("text")
           .attr("text-anchor", "middle")
-          .attr("font-size","30px")
+          .attr("font-size","28px")
           .attr("fill","#e0f3db")
           .attr("dy","10")
           .text(function (d,i) { return d[1]; });

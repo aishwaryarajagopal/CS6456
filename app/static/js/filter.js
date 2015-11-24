@@ -1,19 +1,13 @@
 var filters = new Array(0);
-<<<<<<< HEAD
-=======
 var catfilterResults = [];
 var catfieldName="";
->>>>>>> fb4b7e9f4526daf9940b2992c59e44a9564a350e
 var btnclick = document.getElementById("btnclick");
 var wheel;
 var step = 0;
 var wheel_len = 0;
-<<<<<<< HEAD
-=======
 var min_val, max_val;
 var global_field_name="";
 
->>>>>>> fb4b7e9f4526daf9940b2992c59e44a9564a350e
 function populate_filters(){
 	$.ajax({
 		contentType: 'application/json; charset=utf-8',
@@ -160,10 +154,7 @@ function setScale(val){
 		}
 	});
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> fb4b7e9f4526daf9940b2992c59e44a9564a350e
 function rotate_wheel() {
 	f_children = document.getElementById("filter_home").childNodes;
 	var appBanners = document.getElementsByClassName('divclass');
@@ -182,15 +173,6 @@ function rotate_wheel() {
 function bar_filter(amt) {
 	f_children = document.getElementById("filter_home").childNodes;
 	var appBanners = document.getElementsByClassName('divclass');
-<<<<<<< HEAD
-	appBanner_div = -1;
-	for(var i=0;i<f_children.length;i++) {
-		if(f_children[i].childNodes[0].value == 1 && appBanners[i].style.display == "block") {
-			var appBanner_div = appBanners[i];
-			break;
-		}
-	}
-=======
 	var appBanner_div = -1;
 	var id=-1;
 	for(var i=0;i<f_children.length;i++) {
@@ -200,8 +182,6 @@ function bar_filter(amt) {
 			break;
 		}
 	}
-
->>>>>>> fb4b7e9f4526daf9940b2992c59e44a9564a350e
 	if (appBanner_div != -1) {
 		if(amt>0) {
 			var check = appBanner_div.childNodes[1].style.left < appBanner_div.childNodes[2].style.left;
@@ -211,11 +191,6 @@ function bar_filter(amt) {
 		if (check) {
 			appBanner_div.childNodes[0].style.left = (parseFloat(appBanner_div.childNodes[0].style.left) + amt).toString()+"%";
 			appBanner_div.childNodes[0].style.width = (parseFloat(appBanner_div.childNodes[0].style.width) - amt*2).toString()+"%";
-<<<<<<< HEAD
-			appBanner_div.childNodes[1].style.left = (parseFloat(appBanner_div.childNodes[1].style.left) + amt).toString()+"%";;
-			appBanner_div.childNodes[2].style.left = (parseFloat(appBanner_div.childNodes[2].style.left) - amt).toString()+"%";;
-=======
-
 			appBanner_div.childNodes[1].style.left = (parseFloat(appBanner_div.childNodes[1].style.left) + amt).toString()+"%";
 			appBanner_div.childNodes[2].style.left = (parseFloat(appBanner_div.childNodes[2].style.left) - amt).toString()+"%";
 
@@ -248,7 +223,6 @@ function bar_filter(amt) {
 				success: function (results) {
 				}
 			});
->>>>>>> fb4b7e9f4526daf9940b2992c59e44a9564a350e
 		}
 	}
 }
