@@ -68,14 +68,24 @@ function draw_plot(){
                 }
                 else{
                   console.log("Moving here");
-                  drag_datapoint.remove();
                   if(drag_datapoint != null){
+                    drag_datapoint.remove();
                     var position = document.getElementById("viz").getBoundingClientRect(); 
+                    console.log(parseInt(tooltip_left) - position.left+40);
                     var c = svg1.append("circle")
-                         .attr("cx", (parseInt(tooltip_left) - position.left+40) + "px")
+                         .attr("cx", (parseInt(tooltip_left) - position.left) + "px")
                           .attr("cy", (parseInt(tooltip_top) - position.top) + "px")
                          .attr("r", 20)
-                         .style('fill', color(4));
+                         .style('fill', function(datum, ind){
+                         var left_val = parseInt(tooltip_left) - position.left;
+                         console.log(left_val);
+                         for(var pointer_ind = 0; pointer_ind<900; pointer_ind+= 180){
+                           if (left_val>pointer_ind && left_val<pointer_ind+180){
+                             return color(parseInt(left_val/180));
+                           }  
+                         }
+                         return color(4);
+                        });
 
                     setTimeout( function() { 
                             c.attr("r", 5);
@@ -149,7 +159,7 @@ function draw_plot(){
                     tooltip.style("opacity", 0.8)
                       // .style("left", ( xpos- position.left+5) + "px")
                       // .style("top", (ypos) + "px")
-                      .style("left", tooltip_left)
+                      .style("left", (parseInt(tooltip_left)+40)+"px")
                       .style("top", tooltip_top)
                       .html(pointInfo);
                   }
@@ -280,6 +290,8 @@ function pan(dx, dy)
 }
 function zoom(scale)
 {
+  if(scale <1 && transMatrix[3] < 0.7) return;
+ if(scale >1 && transMatrix[3] > 1.5) return;
   var svg1 = document.getElementById("plotsvg");
   for (var i=0; i<transMatrix.length; i++)
   {

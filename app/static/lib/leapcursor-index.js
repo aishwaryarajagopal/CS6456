@@ -17574,7 +17574,7 @@ LeapCursor.prototype = {
     lastFrame: null,
     speed: [0, 0, 0],
     dampening: 0.95,
-    scrollSpeed: 0.05,
+    scrollSpeed: 0,
     initialize: function(options) {
         for (var optionName in options) {
             if (options.hasOwnProperty(optionName)) {
@@ -17895,14 +17895,14 @@ function parseQuery(query) {
 }
 var scripts = document.getElementsByTagName("script");
 var params = this.parseQuery(scripts[scripts.length - 1].src.replace(/^[^\?]+\??/, ""));
-if (window.addEventListener) {
-    window.addEventListener("load", function() {
-        window.leapCursor = new LeapCursor(params);
-    }, false);
-} else {
-    if (elem.attachEvent) {
-        window.attachEvent("onLoad", function() {
-            window.leapCursor = new LeapCursor(params);
-        });
-    }
-}
+// if (window.addEventListener) {
+//     window.addEventListener("load", function() {
+//         window.leapCursor = new LeapCursor(params);
+//     }, false);
+// } else {
+//     if (elem.attachEvent) {
+//         window.attachEvent("onLoad", function() {
+//             window.leapCursor = new LeapCursor(params);
+//         });
+//     }
+// }

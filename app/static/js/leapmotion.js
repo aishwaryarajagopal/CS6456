@@ -48,9 +48,3 @@ function isScreenTapGesture(gestures) {
       }
       return false;
   }
-
-// function processFrameForSwipe(frame) {
-//   if (frame.valid && frame.gestures.length > 0) {
-//     frame.gestures.forEach(closeBox);
-//   }
-// }

@@ -22,7 +22,6 @@ def filter():
 def criteria():
 	return render_template('/mod_data/criteria.html')
 
-
 @mod_data.route('/retrieve_schema_list')
 def retrieve_schema_list():
 	#For the main.html screen

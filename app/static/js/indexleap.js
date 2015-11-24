@@ -1,18 +1,30 @@
-controller.on('frame',scattergestures);
+controller.on('frame',scattergestures); //soumya
 controller.connect();
-gesture_output.innerText = "Show thumb for details on scatterplot";
+var cursorflag = true;
+
+
+function activatecursor() {
+  if(cursorflag) {
+    var leapCursor = new LeapCursor();
+    controller.removeListener('frame',scattergestures);
+    cursorflag = false;
+  } else {
+    controller.on('frame',scattergestures);
+    cursorflag = true;
+  }
+}
 
 function scattergestures(frame) {
-
   if(!frame.valid) return;
+  hands = frame.hands;
 
-  if(frame.hands.length == 2) {     //IMPLEMENT ZOOM
-    if(frame.hands[0].type=='left') {
-      left = frame.hands[0];
-      right = frame.hands[1];
+  if(hands.length == 2) {     //IMPLEMENT ZOOM
+    if(hands[0].type=='left') {
+      left = hands[0];
+      right = hands[1];
     } else {
-      left = frame.hands[1];
-      right = frame.hands[0];
+      left = hands[1];
+      right = hands[0];
     }
     leftnormal = left.palmNormal;
     rightnormal = right.palmNormal;
@@ -24,10 +36,10 @@ function scattergestures(frame) {
       normdotprod += leftnormal[i]*rightnormal[i];
       velocitysum += Math.abs(leftvelocity[i]) + Math.abs(rightvelocity[i]);
     }
-    if(normdotprod<0 && velocitysum > 500) {
+    if(normdotprod<0 && velocitysum > 400) {
       if(leftvelocity[0]>0 && rightvelocity[0]<0){
         console.log("Zoom in");
-        zoom(1.1);
+        zoom(1.15);
       } else if (leftvelocity[0]<0 && rightvelocity[0]>0) {
         console.log("Zoom out");
         zoom(0.9);
@@ -40,11 +52,11 @@ function scattergestures(frame) {
         console.log("Right");
         pan(-5,0);
       } else if (leftvelocity[1]>0 && rightvelocity[1]>0) {
-        console.log("Top");
-        pan(0,5);
-      } else if (leftvelocity[1]<0 && rightvelocity[1]<0) {
         console.log("Down");
         pan(0,-5);
+      } else if (leftvelocity[1]<0 && rightvelocity[1]<0) {
+        console.log("Top");
+        pan(0,5);
       }
     }
   } else if(frame.gestures.length > 0) {
